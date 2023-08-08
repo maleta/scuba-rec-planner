@@ -125,15 +125,11 @@ watch(
         <h1 class="title margin-bottom-50">Dive planner</h1>
 
         <div class="block">
-          This planner currently works only in Metric System. Input values will
-          be consi
+          This planner currently works only in Metric System.
         </div>
-        <div class="block">Planner currently works only in Metric system.</div>
         <div class="block">
           Planner is implemented following
-          <a href="@/../../../docs/recreational-dive-planner-PADI.pdf"
-            >PADI Dive Table</a
-          >
+          <a href="@/recreational-dive-planner-PADI.pdf">PADI Dive Table</a>
         </div>
         <h2 class="subtitle">Add your dives</h2>
 
