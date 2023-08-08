@@ -26,6 +26,7 @@ const addDive = function () {
     bottomTime: bottomTime.value,
     surfaceInterval: surfaceInterval.value,
   });
+  maxDepth.value = bottomTime.value = surfaceInterval.value = 0;
 };
 const removeDive = function (diveIndex) {
   dives.value.splice(diveIndex, 1);
@@ -37,7 +38,7 @@ const doCalculation = function (dives) {
   for (let i = 0; i < dives.length; i++) {
     if (pressureGroupAfterPause !== "") {
       residualNitrogenTime =
-        PRESSURE_GROUP[dives[i].maxDepth][
+        PRESSURE_GROUP[depthCorrection(dives[i].maxDepth)][
           pressureGroupAfterPause.charCodeAt(0) - "A".charCodeAt(0)
         ];
     }
@@ -59,9 +60,14 @@ const doCalculation = function (dives) {
 
   infoMessages.value = [];
   if (dives.length) {
-    infoMessages.value.push(
-      `Pressure group after entered dives is ${pressureGroupAfterPause}`
-    );
+    if (pressureGroupAfterPause === "CLEAR") {
+      infoMessages.value.push(`You do not have residual Nitrogen! 🎉`);
+    } else {
+      infoMessages.value.push(
+        `Pressure group after entered dives is ${pressureGroupAfterPause}`
+      );
+    }
+
     if (nextDiveDepth.value) {
       infoMessages.value.push(
         `Residual Nitrogen Time for planned dive at ${nextDiveDepth.value} meters is ${residualNitrogenTime} minutes.`
@@ -85,6 +91,16 @@ const doCalculation = function (dives) {
     }
   }
 };
+watch(nextDiveDepth, () => {
+  if (nextDiveDepth?.value > 42) {
+    nextDiveDepth.value = 42;
+  }
+});
+watch(maxDepth, () => {
+  if (maxDepth?.value > 42) {
+    maxDepth.value = 42;
+  }
+});
 watch(
   () => dives.value,
   (newDive) => {
@@ -106,31 +122,25 @@ watch(
   <div class="width-limit-ma">
     <section class="section">
       <div class="block">
-        <h1 class="title">Dive planner</h1>
-        <div class="columns is-vcentered is-centered is-small">
-          <div class="column">
-            <span>Units</span>
-          </div>
-          <div class="column">
-            <div class="control">
-              <label class="radio">
-                <input type="radio" name="measureUnit" checked disabled />
-                Metric
-              </label>
-              <label class="radio">
-                <input type="radio" name="measureUnit" disabled />
-                Imperial
-              </label>
-            </div>
-          </div>
-        </div>
+        <h1 class="title margin-bottom-50">Dive planner</h1>
 
+        <div class="block">
+          This planner currently works only in Metric System. Input values will
+          be consi
+        </div>
+        <div class="block">Planner currently works only in Metric system.</div>
+        <div class="block">
+          Planner is implemented following
+          <a href="@/../../../docs/recreational-dive-planner-PADI.pdf"
+            >PADI Dive Table</a
+          >
+        </div>
         <h2 class="subtitle">Add your dives</h2>
 
         <div>
           <div class="columns is-vcentered is-centered">
             <div class="column">
-              <label class="label">Max depth</label>
+              <label class="label">Max depth(m)</label>
               <input
                 class="input is-small"
                 type="number"
@@ -141,7 +151,7 @@ watch(
               />
             </div>
             <div class="column">
-              <label class="label">Bottom time</label>
+              <label class="label">Bottom time(min)</label>
               <input
                 class="input is-small"
                 type="number"
@@ -151,7 +161,7 @@ watch(
               />
             </div>
             <div class="column">
-              <label class="label">Surface interval</label>
+              <label class="label">Surface interval(min)</label>
               <input
                 class="input is-small"
                 type="number"
@@ -163,7 +173,7 @@ watch(
             <div class="column is-1">
               <button
                 @click="addDive"
-                class="button is-small is-primary main-button"
+                class="button is-small is-primary margin-bottom-20"
               >
                 ADD DIVE
               </button>
@@ -200,17 +210,18 @@ watch(
       </div>
       <div class="columns is-centered">
         <div class="column is-half is-centered">
-          <label class="label">Planned max depth of the next dive</label>
+          <label class="label">Planned max depth of the next dive (m)</label>
           <input
             class="input is-small"
             type="number"
             placeholder="Max depth of the next dive"
             v-model="nextDiveDepth"
             min="1"
+            max="42"
           />
         </div>
         <div class="column is-half is-centered">
-          <label class="label">Planned bottom time of the next dive</label>
+          <label class="label">Planned bottom time of the next dive(min)</label>
           <input
             class="input is-small"
             type="number"
@@ -248,7 +259,10 @@ watch(
   top: 3px;
   right: -20px;
 }
-.main-button {
+.margin-bottom-20 {
   margin-bottom: 20px;
+}
+.margin-bottom-50 {
+  margin-bottom: 50px;
 }
 </style>

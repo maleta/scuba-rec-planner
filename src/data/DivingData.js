@@ -90,28 +90,24 @@ const SURFACE_INTERVAL_TABLE = {
 export const VALID_DEPTHS = [10, 12, 14, 16, 18, 20, 22, 25, 30, 35, 40, 42];
 
 export const depthCorrection = function (depth) {
-  console.log("WRONT DEPTH = ", depth);
   if (depth < VALID_DEPTHS[0]) {
     return VALID_DEPTHS[0];
   }
 
-  if (depth > VALID_DEPTHS[VALID_DEPTHS.length - 1]) {
-    throw new Error("Maximal recreational diving depth is 42 meters.");
-  }
-
-  if (
-    VALID_DEPTHS.indexOf(depth) === -1 &&
+  if (VALID_DEPTHS.indexOf(depth) !== -1) {
+    return depth;
+  } else if (
     depth > VALID_DEPTHS[0] &&
     depth < VALID_DEPTHS[VALID_DEPTHS.length - 1]
   ) {
     for (let i = 0; i < VALID_DEPTHS.length - 1; i++) {
       if (depth > VALID_DEPTHS[i] && depth < VALID_DEPTHS[i + 1]) {
-        depth = VALID_DEPTHS[i + 1];
-        break;
+        return VALID_DEPTHS[i + 1];
       }
     }
   }
-  return depth;
+
+  throw new Error("Invalid depth entered");
 };
 
 export const timeCorrection = function (depth, time) {
@@ -199,7 +195,7 @@ export const pressureGroupAfterSurfaceInt = function (
 try {
   depthCorrection(45);
 } catch (e) {
-  console.log(e.message === "Maximal recreational diving depth is 42 meters.");
+  console.log(e.message === "Invalid depth entered.");
 }
 
 console.log(depthCorrection(8) === 10);
