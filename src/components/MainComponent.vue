@@ -100,7 +100,7 @@ const doCalculation = function () {
       infoMessages.value.push(`You do not have residual Nitrogen! 🎉`);
     } else {
       infoMessages.value.push(
-        `Pressure group after entered dives is ${pressureGroupAfterPause}`
+        `Pressure group after entered dives is ${pressureGroupAfterPause}.`
       );
     }
 
@@ -115,7 +115,15 @@ const doCalculation = function () {
           PRESSURE_GROUP[depthCorrection(nextDiveDepth.value)][
             PRESSURE_GROUP[depthCorrection(nextDiveDepth.value)].length - 1
           ] - residualNitrogenTime
-        } minutes!`
+        } minutes! ${
+          nextDiveBottomTime.value >
+          PRESSURE_GROUP[depthCorrection(nextDiveDepth.value)][
+            PRESSURE_GROUP[depthCorrection(nextDiveDepth.value)].length - 1
+          ] -
+            residualNitrogenTime
+            ? " Please adjust the planned bottom time to stay within this limit."
+            : ""
+        }`
       );
       if (nextDiveBottomTime.value) {
         infoMessages.value.push(
@@ -298,6 +306,9 @@ watch(
           v-for="(infoMessage, index) in infoMessages"
           :key="index"
           class="message is-info"
+          v-bind:class="
+            infoMessage.startsWith('NO DECOMPRESSION LIMIT') ? 'is-danger' : ''
+          "
         >
           <div class="message-body">
             {{ infoMessage }}
