@@ -195,9 +195,8 @@ export const pressureGroupAfterSurfaceInt = function (
 try {
   depthCorrection(45);
 } catch (e) {
-  console.log(e.message === "Invalid depth entered.");
+  console.log(e.message === "Invalid depth entered");
 }
-
 console.log(depthCorrection(8) === 10);
 console.log(pressureGroupAfterDive(42, 3) === "B");
 console.log(pressureGroupAfterDive(42, 5) === "D");
