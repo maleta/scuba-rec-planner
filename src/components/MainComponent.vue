@@ -161,11 +161,12 @@ watch(
           >
         </div>
         <div class="block">
-          It is strongly advised to do a double check with the
+          It is strongly advised to double-check with the
           <a href="recreational-dive-planner-PADI.pdf" target="_blank"
             >actual table</a
-          >. If any false result occurs, please open issue on Github or send an
-          email to maleta.ub@gmail.com. Thank you!
+          >. If you come across any inaccurate results, please feel free to open
+          an issue on GitHub or send an email to maleta.ub@gmail.com. Thank
+          you!"
         </div>
         <h2 class="subtitle">Add your dives</h2>
 
