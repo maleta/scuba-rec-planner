@@ -153,9 +153,7 @@ watch(
       <div class="block">
         <h1 class="title margin-bottom-50">Dive planner</h1>
 
-        <div class="block">
-          This planner currently works only in Metric System
-        </div>
+        <div class="block">This planner works in Metric System</div>
         <div class="block">
           Planner is implemented following
           <a href="recreational-dive-planner-PADI.pdf" target="_blank"
