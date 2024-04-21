@@ -1,4 +1,6 @@
 # scuba-rec-planner
+Scuba recreative diving planner, try it on: https://maleta.github.io/scuba-rec-planner
+
 
 ## Project setup
 
